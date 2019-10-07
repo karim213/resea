@@ -1,0 +1,46 @@
+Etude Udp:
+
+ a) L'analyseur se trouve dans le reseau 192.168.223.0
+ i) Tram etehernet : 
+         src : 02:60:8c:d9:d8:d2
+         dest :02:60:8c:7b:04:a5
+   IP:
+         src: 192.168.223.208
+         dest: 192.168.200.202
+
+   Udp:
+        port scr : 1578
+        port dest : 9
+
+b)  La taille des données passées à UDP par l’application :
+        4104 - 8  = 4096 octet
+c)les datagrammes contenus dans les trames 136 et 137 corresponds a la fragmentation ddu datagramme ip de la trame (135), car leurs numero d'identification corresponds a celui de la trame 135,
+
+
+2)
+
+a) Ip:
+       src : 192.168.223.205
+       dest: 192.168.223.208
+
+b)
+    1-le message correspond a un message d'erreur icmp avec un type d'erreur : limitation du débit à la source (Source quench).
+
+    i)le message ICMP contient une diagnostic sur l'erreur survenue lors l'envoie de données.
+    ii)icmp.type = 4(Source quench) => limitation du débit à la source.
+    iii) trame 144, 
+         icmp.identification : correspond a ip.identification de la trame concerné qui est la 144eme. **********
+
+    iv)06 2a 00 09 10 08 08 41 : ils correspondent au 8 premier octets de donnees du datagramme fautif.
+
+3)Les protocoles IP, UDP ont pas pris en compte ce message
+Apres l'analyse du reste de la capture on remarque que l'enoie de donnees se continue malgrés le message d'erreur ICMP.
+
+4)************
+
+TCP:
+ Partie 1:
+    1) L'analyseur se trouve dans le reseau 192.168.223.0
+    2)
+
+
