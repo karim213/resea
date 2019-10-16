@@ -41,6 +41,35 @@ Apres l'analyse du reste de la capture on remarque que l'enoie de donnees se con
 TCP:
  Partie 1:
     1) L'analyseur se trouve dans le reseau 192.168.223.0
-    2)
+    2)La trame 3 est une demande d'etablissement de connexion entre la machine 192.168.223.208 et 192.33.169.11.
+      -La trame 4 : la machine 192.33.169.11 envoie un acquittement de la demande de connexion et une demande d'etablissment de  connexion avec la 1er machine.
+     -La trame 5 : la machine 192.168.223.208 acquitte de la demande de connexion.
+
+3)le module TCP de la machine 192.168.223.208 peut envoyer que 4096 octets car la machine 192.33.169.11 a repondu avec une trame contenant l'information w = 4096 qui represente la taille maximale de données que cette machine peut recevoir. 
+
+-le module TCP de la machine 192.33.169.11 peut envoyer que 16384 octets car la machine 192.168.223.208 a repondu avec une trame contenant l'information w = 16384 qui represente la taille maximale de données que cette machine peut recevoir. 
+
+4)Dans la trame 6 la machine 192.168.223.208 a envoyer 512 octet à la machine 192.33.168.11 or la liaison wan entre  le routeur c2:60.8C:7b:c4:a5  et le routeur 02:60:8c:d9:d8:cd ne permet pas d'envoyer plus de 256 octet, donc la trame a était bloqué dans le 1 er routeur qui lui meme a repondu la machine source avec message icmp (trame7).
+ -La machine  192.168.223.208 a renvoyer les donneee en fragmentant le paquet en  deux fragments de taille 256octets (trame 8 et 9).
+
+5)Dans la trame 10 la machine source à renvoyer les données du fragement 1 (trame 8).
+6)la machine source n'a pas recu l'acquitement du premier fragement de la part du machine destinataire,cela a poussé la machine a renvoyer les données du fragement.
+Les raisons possible : 
+     -Fin de temporaisation.
+     -La trame à était perdu.
+     -La trame erronée.
+
+7)  
+8)
 
 
+
+
+Deuxième  partie :
+
+1) numero aquitement 285 - 1 - numero de séquence de la trame 8 = 
+   1600446817 octets - 1 octet - 1600414561 octets = 32255 octets.
+
+2)  
+
+3)
