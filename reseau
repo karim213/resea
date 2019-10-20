@@ -70,6 +70,12 @@ Deuxième  partie :
 1) numero aquitement 285 - 1 - numero de séquence de la trame 8 = 
    1600446817 octets - 1 octet - 1600414561 octets = 32255 octets.
 
-2)  
+2) 346.131040684 - 16.970752571 = 329.16028811 ms
 
-3)
+3)32255 octets = 0,032255 mb.
+  les 32255 octets sont envoyé en 329.16028811 ms
+  ce qui fait un debit de  : 0.098 mb/s
+  comparaison : le debit est plus faible par rapport au débit d’émission d’Ethernet.
+
+4) 32255 octets * 3 bits (émission d’un bit de start + parité + stop) = 96765 + 32255 octets * 8 bits (ensemble totale des bits de données) = 354805 bits
+   le nombre total de bits émis dans la liaison série RS232 est 354805 bits  
