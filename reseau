@@ -29,14 +29,14 @@ b)
     i)le message ICMP contient une diagnostic sur l'erreur survenue lors l'envoie de données.
     ii)icmp.type = 4(Source quench) => limitation du débit à la source.
     iii) trame 144, 
-         icmp.identification : correspond a ip.identification de la trame concerné qui est la 144eme. **********
+         icmp.identification : correspond a ip.identification de la trame concerné qui est la 144eme. 
 
     iv)06 2a 00 09 10 08 08 41 : ils correspondent au 8 premier octets de donnees du datagramme fautif.
 
-3)Les protocoles IP, UDP ont pas pris en compte ce message
+3)Les protocoles IP, UDP n'ont pas pris en compte ce message
 Apres l'analyse du reste de la capture on remarque que l'enoie de donnees se continue malgrés le message d'erreur ICMP.
 
-4)************
+4) 
 
 TCP:
  Partie 1:
@@ -45,23 +45,29 @@ TCP:
       -La trame 4 : la machine 192.33.169.11 envoie un acquittement de la demande de connexion et une demande d'etablissment de  connexion avec la 1er machine.
      -La trame 5 : la machine 192.168.223.208 acquitte de la demande de connexion.
 
-3)le module TCP de la machine 192.168.223.208 peut envoyer que 4096 octets car la machine 192.33.169.11 a repondu avec une trame contenant l'information w = 4096 qui represente la taille maximale de données que cette machine peut recevoir. 
+3)le module TCP de la machine 192.168.223.208 peut recevoire que 1460 octets car la trame envoyee a  192.33.169.11 contenant l'information MSS = 4096 qui represente la taille maximale de segement que cette machine peut recevoir. 
 
--le module TCP de la machine 192.33.169.11 peut envoyer que 16384 octets car la machine 192.168.223.208 a repondu avec une trame contenant l'information w = 16384 qui represente la taille maximale de données que cette machine peut recevoir. 
+-le module TCP de la machine 192.33.169.11 n'a pas preciser a la machine 192.168.223.208 la taille maximale de segement que cette machine peut recevoir (.11)donc le TCP de 192.168.223.208 choisit une valuer par defaut dans ce cas elle egale 512 octets . 
 
 4)Dans la trame 6 la machine 192.168.223.208 a envoyer 512 octet à la machine 192.33.168.11 or la liaison wan entre  le routeur c2:60.8C:7b:c4:a5  et le routeur 02:60:8c:d9:d8:cd ne permet pas d'envoyer plus de 256 octet, donc la trame a était bloqué dans le 1 er routeur qui lui meme a repondu la machine source avec message icmp (trame7).
  -La machine  192.168.223.208 a renvoyer les donneee en fragmentant le paquet en  deux fragments de taille 256octets (trame 8 et 9).
 
 5)Dans la trame 10 la machine source à renvoyer les données du fragement 1 (trame 8).
+
 6)la machine source n'a pas recu l'acquitement du premier fragement de la part du machine destinataire,cela a poussé la machine a renvoyer les données du fragement.
 Les raisons possible : 
      -Fin de temporaisation.
      -La trame à était perdu.
      -La trame erronée.
 
-7)  
-8)
+7)  les couples de segements : 
+    - 1600414561 et 1600414817
+    - 1600414817 et 1600415073
+    - 1600415329 et 1600415585
+    - 1600415841 toute seule
 
+8) on obsereve quel'envoie de donnees se continue normalement parce-que il n'y a plus de segements 
+redondants  
 
 
 
@@ -72,10 +78,29 @@ Deuxième  partie :
 
 2) 346.131040684 - 16.970752571 = 329.16028811 ms
 
-3)32255 octets = 0,032255 mb.
-  les 32255 octets sont envoyé en 329.16028811 ms
+3) 32255 octets = 0,032255 mb.
+  les 32255 octets sont envoyé en 329.16028811 ms = 0.32916028811 s
   ce qui fait un debit de  : 0.098 mb/s
   comparaison : le debit est plus faible par rapport au débit d’émission d’Ethernet.
 
-4) 32255 octets * 3 bits (émission d’un bit de start + parité + stop) = 96765 + 32255 octets * 8 bits (ensemble totale des bits de données) = 354805 bits
-   le nombre total de bits émis dans la liaison série RS232 est 354805 bits  
+4) 
+   32255 octets * 3 bits (émission d’un bit de start + parité + stop) = 96765 + 32255 octets * 8 bits (ensemble totale des bits de données) = 354805 bits
+   le nombre total de bits émis dans la liaison série RS232 est : 354805 bits + 2 * 16 << la taille des 2 caracteres ( "C0" (END) à la fin du datagramme et au début du datagramme, supposons 2 octets et donc 16 bits )>> 
+   * 126 ( nombre totale de paquets ) = 358837 bits 
+
+5) 
+   - 329.16028811 ms le remps emis pour envoyer toutes les donnees = 0.32916028811 s
+   - 358837 bits nombres totales de donnees envoyes 
+   - 358837 / 0.32916028811 = 999 099,88 Bits/s
+
+6) 
+   
+
+7)
+
+
+8)
+   - pour le protocole TCP necessite un etablissement de connexion enntre les 2 extremites (Trames 3 4 et 5) tandis que pour l'UDP pas besoin d'etablir une connexion,
+   - le protocole TCP fiable en cas d'erreur(Message errone , perdu ...) un message ICMP est envoyé
+   - TCP aquitte les donnees et les numerote par chaque octet (avec le numero de sequence)
+    
