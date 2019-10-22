@@ -73,30 +73,35 @@ redondants
 
 Deuxième  partie :
 
-1) numero aquitement 285 - 1 - numero de séquence de la trame 8 = 
-   1600446817 octets - 1 octet - 1600414561 octets = 32255 octets.
+1) 
+   numero identification de la trame 284 - numero identification de la trame 8 - le nombre de doublons 
+   = 13800 - 13647 - 7 = 146 trames envoyées.
 
-2) 346.131040684 - 16.970752571 = 329.16028811 ms
+   taille de données Ethernet d'une trame = 310 octets.
+   donc la taille totales des données ethernet envoyées entre la trame 8 et 286 (non incluse) = 310 octets * 146 = 45260 octets.
+  
 
-3) 32255 octets = 0,032255 mb.
-  les 32255 octets sont envoyé en 329.16028811 ms = 0.32916028811 s
-  ce qui fait un debit de  : 0.098 mb/s
+2) 346.131040684 - 16.970752571 = 329.16 s
+
+3) 45260 octets = 0,36208 mb.
+  les 45260 octets sont envoyé en 329.16 s
+  ce qui fait un debit de  : 0.001 mb/s
   comparaison : le debit est plus faible par rapport au débit d’émission d’Ethernet.
 
 4) 
-   32255 octets * 3 bits (émission d’un bit de start + parité + stop) = 96765 + 32255 octets * 8 bits (ensemble totale des bits de données) = 354805 bits
-   le nombre total de bits émis dans la liaison série RS232 est : 354805 bits + 2 * 16 << la taille des 2 caracteres ( "C0" (END) à la fin du datagramme et au début du datagramme, supposons 2 octets et donc 16 bits )>> 
-   * 126 ( nombre totale de paquets ) = 358837 bits 
+   45260 octets * 2 bits (émission d’un bit de start  + stop) = 90520 + 45260 octets * 8 bits (ensemble totale des bits de données) = 452600 bits
+   le nombre total de bits émis dans la liaison série RS232 est : 452600 bits + 2 * 16 << la taille des 2 caracteres ( "C0" (END) à la fin du datagramme et au début du datagramme, supposons 2 octets et donc 16 bits )>> 
+   * 146 ( nombre totale de paquets ) = 457272 bits 
 
 5) 
-   - 329.16028811 ms le remps emis pour envoyer toutes les donnees = 0.32916028811 s
-   - 358837 bits nombres totales de donnees envoyes 
-   - 358837 / 0.32916028811 = 999 099,88 Bits/s
+   - 329.16s est le temps emis pour envoyer toutes les donnees
+   - 457272 bits nombres totales de donnees envoyes 
+   - 457272 / 329.16 = 1389.2 Bits/s
 
 6) 
    
 
-7)
+7) le module TCP de la machine 192.168.223.208  lorsqu’il a émis toutes ses segments sur le réseau local Ethernet, il envoie une demande de fin de connexion avec la machine destinataire.
 
 
 8)
